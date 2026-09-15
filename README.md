@@ -1,6 +1,6 @@
 # 🏠 IndoorLoc — Real-Time Indoor Localization System
 
-> **Live Demo →** [https://your-app.onrender.com](https://your-app.onrender.com)  
+> **Live Demo →** [https://indoorloc.onrender.com/](https://indoorloc.onrender.com/)  
 > *(Replace this link after deploying to Render)*
 
 ---
