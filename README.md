@@ -1,7 +1,6 @@
 # 🏠 IndoorLoc — Real-Time Indoor Localization System
 
-> **Live Demo →** [https://indoorloc.onrender.com/](https://indoorloc.onrender.com/)  
-> *(Replace this link after deploying to Render)*
+> **Live Demo →** [https://indoorloc.onrender.com](https://indoorloc.onrender.com)
 
 ---
 
@@ -49,10 +48,26 @@ BLE Beacon B ──┘                                           (KNN Prediction
 ## 📁 Project Structure
 
 ```
+Indoor-localization-/
 ├── dashboard/        # Flask app, ML model, Web UI
+│   ├── app.py
+│   ├── ml_localizer.py
+│   ├── requirements.txt
+│   ├── Procfile
+│   ├── templates/
+│   │   └── index.html
+│   └── static/
+│       ├── style.css
+│       └── script.js
 ├── hardware/         # ESP32 beacon & scanner sketches
+│   ├── Beacon1/
+│   ├── Beacon2/
+│   ├── beacon3/
+│   ├── Scanner/
+│   └── scanner_3_beacons/
 ├── VScode/           # Prediction scripts
 └── README.md
+```
 
 ---
 
@@ -93,7 +108,3 @@ Where values are RSSI readings from Beacon A and Beacon B.
 
 ---
 
-## 👩‍💻 Author
-
-**Keerti Mahantshetti**  
-5th Semester Project — Indoor Localization using BLE & Machine Learning
