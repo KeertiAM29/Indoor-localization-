@@ -49,18 +49,10 @@ BLE Beacon B ──┘                                           (KNN Prediction
 ## 📁 Project Structure
 
 ```
-indoorloc/
-├── app.py                  # Flask server
-├── ml_localizer.py         # KNN model + Serial reader + Demo simulation
-├── requirements.txt
-├── Procfile
-├── templates/
-│   └── index.html          # Dashboard UI
-├── static/
-│   ├── style.css
-│   └── script.js
-└── localization_log.csv    # Auto-generated data log
-```
+├── dashboard/        # Flask app, ML model, Web UI
+├── hardware/         # ESP32 beacon & scanner sketches
+├── VScode/           # Prediction scripts
+└── README.md
 
 ---
 
