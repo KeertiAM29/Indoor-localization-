@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IndoorLoc · Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/static/style.css"/>
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="sidebar__logo">
+      <div class="logo-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="white"/>
+        </svg>
+      </div>
+      <div>
+        <div class="logo-name">IndoorLoc</div>
+        <div class="logo-sub">Dashboard</div>
+      </div>
+    </div>
+
+    <nav class="sidebar__nav">
+      <a class="nav-item nav-item--active" href="#">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none">
+          <rect x="3" y="3" width="7" height="7" rx="1" fill="currentColor"/>
+          <rect x="14" y="3" width="7" height="7" rx="1" fill="currentColor" opacity=".5"/>
+          <rect x="3" y="14" width="7" height="7" rx="1" fill="currentColor" opacity=".5"/>
+          <rect x="14" y="14" width="7" height="7" rx="1" fill="currentColor" opacity=".5"/>
+        </svg>
+        Overview
+      </a>
+      <a class="nav-item" href="#">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M6.3 6.3a8 8 0 0 0 0 11.4M17.7 6.3a8 8 0 0 1 0 11.4M3.5 3.5a13 13 0 0 0 0 17M20.5 3.5a13 13 0 0 1 0 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        Beacons
+      </a>
+      <a class="nav-item" href="#">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none">
+          <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M3 9h18M9 21V9" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+        Map View
+      </a>
+      <a class="nav-item" href="#">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M12 7v5l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        History
+      </a>
+    </nav>
+
+    <div class="sidebar__bottom">
+      <div class="sys-status-box">
+        <span class="sys-dot" id="sysDot"></span>
+        <div>
+          <div class="sys-label">System Status</div>
+          <div class="sys-value" id="sysStatusText">WAITING</div>
+        </div>
+      </div>
+      <div class="sidebar__avatar">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="white"/>
+        </svg>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="topbar__left">
+        <div class="welcome">Welcome back! 👋</div>
+        <h1 class="page-title">Indoor Localization Dashboard</h1>
+      </div>
+      <div class="topbar__right">
+        <!-- DEMO MODE BADGE -->
+        <div class="demo-pill" id="demoPill" style="display:none">🎬 DEMO MODE</div>
+        <div class="status-chip" id="statusChip">
+          <span class="status-chip__dot" id="chipDot"></span>
+          <div>
+            <div class="status-chip__label">SYSTEM STATUS</div>
+            <div class="status-chip__value" id="chipValue">CONNECTING…</div>
+          </div>
+        </div>
+        <div class="avatar-btn">K</div>
+      </div>
+    </header>
+
+    <!-- Disconnected / Idle Banner -->
+    <div class="disconnected-banner hidden" id="disconnectedBanner">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+        <path d="M12 9v4M12 17h.01M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span id="bannerText">No ESP32 detected — running in demo mode.</span>
+      <span class="banner-retry" id="bannerRetry">● Demo active</span>
+    </div>
+
+    <!-- Metric Cards -->
+    <section class="metric-cards">
+      <div class="mcard" id="cardA">
+        <div class="mcard__icon mcard__icon--blue">
+          <svg viewBox="0 0 24 24" fill="none" width="24" height="24">
+            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M6.3 6.3a8 8 0 0 0 0 11.4M17.7 6.3a8 8 0 0 1 0 11.4M3.5 3.5a13 13 0 0 0 0 17M20.5 3.5a13 13 0 0 1 0 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="mcard__body">
+          <div class="mcard__label">Beacon A</div>
+          <div class="mcard__value"><span id="valA">—</span><span class="mcard__unit" id="unitA"></span></div>
+          <div class="mcard__sub" id="subA">No Signal</div>
+          <canvas class="mcard__spark" id="sparkA" width="120" height="32"></canvas>
+        </div>
+      </div>
+
+      <div class="mcard" id="cardB">
+        <div class="mcard__icon mcard__icon--indigo">
+          <svg viewBox="0 0 24 24" fill="none" width="24" height="24">
+            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M6.3 6.3a8 8 0 0 0 0 11.4M17.7 6.3a8 8 0 0 1 0 11.4M3.5 3.5a13 13 0 0 0 0 17M20.5 3.5a13 13 0 0 1 0 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="mcard__body">
+          <div class="mcard__label">Beacon B</div>
+          <div class="mcard__value"><span id="valB">—</span><span class="mcard__unit" id="unitB"></span></div>
+          <div class="mcard__sub" id="subB">No Signal</div>
+          <canvas class="mcard__spark" id="sparkB" width="120" height="32"></canvas>
+        </div>
+      </div>
+
+      <div class="mcard" id="cardLoc">
+        <div class="mcard__icon mcard__icon--pink">
+          <svg viewBox="0 0 24 24" fill="none" width="24" height="24">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="currentColor"/>
+          </svg>
+        </div>
+        <div class="mcard__body">
+          <div class="mcard__label">Current Location</div>
+          <div class="mcard__value mcard__value--loc" id="valLoc">—</div>
+          <div class="mcard__sub" id="subLoc">Awaiting signal</div>
+        </div>
+      </div>
+
+      <div class="mcard" id="cardConf">
+        <div class="mcard__icon mcard__icon--green">
+          <svg viewBox="0 0 24 24" fill="none" width="24" height="24">
+            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/>
+            <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="1.5"/>
+            <circle cx="12" cy="12" r="1.5" fill="currentColor"/>
+          </svg>
+        </div>
+        <div class="mcard__body">
+          <div class="mcard__label">Confidence</div>
+          <div class="mcard__value mcard__value--conf"><span id="valConf">—</span></div>
+          <div class="mcard__sub" id="accLabel">No Signal</div>
+          <canvas class="mcard__spark mcard__spark--green" id="sparkConf" width="120" height="32"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bottom Row -->
+    <section class="bottom-row">
+      <div class="live-panel">
+        <div class="panel-header">
+          <span class="panel-title">Live Location</span>
+          <span class="live-badge" id="liveBadge">
+            <span class="live-dot" id="liveDot"></span>
+            <span id="liveBadgeText">OFFLINE</span>
+          </span>
+        </div>
+
+        <div class="live-panel__body">
+          <div class="radar-wrap">
+            <div class="radar-ring r1" id="radarR1"></div>
+            <div class="radar-ring r2" id="radarR2"></div>
+            <div class="radar-ring r3" id="radarR3"></div>
+            <div class="radar-center" id="radarCenter">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="white"/>
+              </svg>
+            </div>
+          </div>
+
+          <div class="live-info">
+            <div class="live-info__here" id="liveHere">You are here</div>
+            <div class="live-info__room" id="liveRoom">—</div>
+            <div class="live-info__row">
+              <span class="live-info__label">Accuracy</span>
+              <span class="live-info__val live-info__val--purple" id="liveAcc">—</span>
+            </div>
+            <div class="live-info__row">
+              <span class="live-info__label">Last Updated</span>
+              <span class="live-info__val" id="liveTime">--:--:-- --</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="activity">
+          <div class="activity__title">Recent Activity</div>
+          <div class="activity__list" id="activityList"></div>
+          <button class="activity__btn">View Full History <span>›</span></button>
+        </div>
+      </div>
+
+      <!-- Map Panel -->
+      <div class="map-panel">
+        <div class="panel-header">
+          <span class="panel-title">Map View</span>
+          <div class="floor-select">Floor 1
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+              <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="floorplan" id="floorplan">
+          <div class="fp-room fp-room--upper" id="zone-Room101" style="left:2%;top:8%;width:22%;height:38%"><span class="fp-room__label">Room101</span></div>
+          <div class="fp-room fp-room--upper" id="zone-Room102" style="left:25%;top:8%;width:22%;height:38%"><span class="fp-room__label">Room102</span></div>
+          <div class="fp-room fp-room--upper" id="zone-Room103" style="left:49%;top:8%;width:22%;height:38%"><span class="fp-room__label">Room103</span></div>
+          <div class="fp-room fp-room--upper" id="zone-Room104" style="left:73%;top:8%;width:25%;height:38%"><span class="fp-room__label">Room104</span></div>
+          <div class="fp-room fp-room--lower" id="zone-Room105" style="left:2%;top:55%;width:22%;height:38%"><span class="fp-room__label">Room105</span></div>
+          <div class="fp-room fp-room--lower" id="zone-Room106" style="left:25%;top:55%;width:22%;height:38%"><span class="fp-room__label">Room106</span></div>
+          <div class="fp-room fp-room--lower" id="zone-Room107" style="left:49%;top:55%;width:22%;height:38%"><span class="fp-room__label">Room107</span></div>
+          <div class="fp-room fp-room--lower" id="zone-Room108" style="left:73%;top:55%;width:25%;height:38%"><span class="fp-room__label">Room108</span></div>
+          <div class="fp-corridor" id="zone-Corridor"></div>
+
+          <div class="fp-beacon fp-beacon--a" style="left:38%;top:62%">
+            <div class="fp-beacon__glow fp-beacon__glow--a"></div>
+            <div class="fp-beacon__dot">
+              <svg viewBox="0 0 24 24" fill="none" width="14" height="14"><circle cx="12" cy="12" r="3" stroke="white" stroke-width="1.5"/><path d="M6.3 6.3a8 8 0 0 0 0 11.4M17.7 6.3a8 8 0 0 1 0 11.4" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </div>
+          </div>
+
+          <div class="fp-beacon fp-beacon--b" style="left:80%;top:62%">
+            <div class="fp-beacon__glow fp-beacon__glow--b"></div>
+            <div class="fp-beacon__dot">
+              <svg viewBox="0 0 24 24" fill="none" width="14" height="14"><circle cx="12" cy="12" r="3" stroke="white" stroke-width="1.5"/><path d="M6.3 6.3a8 8 0 0 0 0 11.4M17.7 6.3a8 8 0 0 1 0 11.4" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </div>
+          </div>
+
+          <div class="fp-location" id="fpLocation" style="left:13%;top:28%;display:none">
+            <div class="fp-location__ring r1"></div>
+            <div class="fp-location__ring r2"></div>
+            <div class="fp-location__pin">
+              <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="white"/></svg>
+            </div>
+          </div>
+
+          <div class="fp-legend">
+            <div class="fp-legend__item"><span class="fp-legend__dot fp-legend__dot--purple"></span>Current Location</div>
+            <div class="fp-legend__item"><span class="fp-legend__dot fp-legend__dot--indigo"></span>Beacon B</div>
+            <div class="fp-legend__item"><span class="fp-legend__dot fp-legend__dot--blue"></span>Beacon A</div>
+          </div>
+
+          <div class="fp-zoom">
+            <button class="fp-zoom__btn">+</button>
+            <button class="fp-zoom__btn">−</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="dash-footer">© 2025 IndoorLoc System · KNN-based Indoor Localization using ESP32 & BLE Beacons</footer>
+  </main>
+
+  <script src="/static/script.js"></script>
+</body>
+</html>
